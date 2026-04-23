@@ -32,6 +32,7 @@ repositories {
         }
         filter {
             includeGroupAndSubgroups('com.geckolib')
+            includeGroupAndSubgroups('software.bernie.geckolib')
         }
     }
 }
@@ -100,7 +101,7 @@ configurations {
 }
 
 dependencies {
-    implementation "com.geckolib:geckolib-neoforge-26.1:${geckolib_version}"
+    implementation "software.bernie.geckolib:geckolib-neoforge-26.1:${geckolib_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
