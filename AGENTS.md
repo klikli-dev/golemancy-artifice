@@ -12,9 +12,8 @@
 Do NOT use fully qualified class names in code. Always import classes and use their names without full package paths. 
 
 ## Minecraft source lookups
-- Use the `minecraft-dev` skill for all vanilla lookups, diffs, and signature checks.
-- Always use **Mojmaps** when querying Minecraft code with `minecraft-dev`.
-- Use `minecraft-dev` version comparison and source lookup before editing code.
+- EXCLUSIVELY use the `minecraft-dev` skill for all minecraft, mod and modloader (neoforge) source code lookups, diffs, and signature checks.
+- Always use `mojmaps` mapping when querying code with `minecraft-dev`.
 
 ## Mapping and version rules
 - Minecraft no longer uses obfuscation. If anything requests a mapping, use mojmaps.
