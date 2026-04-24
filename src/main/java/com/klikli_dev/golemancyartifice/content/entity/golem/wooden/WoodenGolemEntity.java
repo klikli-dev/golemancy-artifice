@@ -19,9 +19,9 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
 public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
     private static final RawAnimation IDLE_ANIMATION = RawAnimation.begin().thenLoop("idle");
@@ -47,25 +47,18 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    protected Brain<WoodenGolemEntity> makeBrain(Brain.Packed packedBrain) {
-        Brain<WoodenGolemEntity> brain = BRAIN_PROVIDER.makeBrain(this, packedBrain);
-        this.registerBrainGoals(brain);
-        return brain;
+    protected @NonNull Brain<WoodenGolemEntity> makeBrain(Brain.@NonNull Packed packedBrain) {
+        return BRAIN_PROVIDER.makeBrain(this, packedBrain);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Brain<WoodenGolemEntity> getBrain() {
+    public @NonNull Brain<WoodenGolemEntity> getBrain() {
+        //noinspection unchecked
         return (Brain<WoodenGolemEntity>) super.getBrain();
     }
 
-    private void registerBrainGoals(Brain<WoodenGolemEntity> brain) {
-        brain.setDefaultActivity(Activity.IDLE);
-        brain.setActiveActivityIfPossible(Activity.IDLE);
-    }
-
     @Override
-    protected void customServerAiStep(ServerLevel level) {
+    protected void customServerAiStep(@NonNull ServerLevel level) {
         this.getBrain().tick(level, this);
         WoodenGolemAi.updateActivity(this);
         super.customServerAiStep(level);
@@ -77,7 +70,7 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public @NonNull AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.animationCache;
     }
 }
