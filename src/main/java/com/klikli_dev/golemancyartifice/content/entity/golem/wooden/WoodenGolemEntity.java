@@ -49,7 +49,7 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<WoodenGolemEntity>("walk_idle", 0, state -> state.setAndContinue(state.isMoving() ? WALK_ANIMATION : IDLE_ANIMATION)));
+        controllers.add(new AnimationController<WoodenGolemEntity>("walk_idle", 5, state -> state.setAndContinue(state.isMoving() ? WALK_ANIMATION : IDLE_ANIMATION)));
     }
 
     @Override
