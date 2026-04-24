@@ -4,12 +4,18 @@
 
 package com.klikli_dev.golemancyartifice.client.model.entity;
 
-import com.geckolib.model.DefaultedEntityGeoModel;
+import com.geckolib.model.DefaultedGeoModel;
+import com.klikli_dev.golemancyartifice.GolemancyArtifice;
 import com.klikli_dev.golemancyartifice.common.entity.WoodenGolemEntity;
-import com.klikli_dev.golemancyartifice.registry.ModEntities;
+import net.minecraft.resources.Identifier;
 
-public class WoodenGolemModel extends DefaultedEntityGeoModel<WoodenGolemEntity> {
+public class WoodenGolemModel extends DefaultedGeoModel<WoodenGolemEntity> {
     public WoodenGolemModel() {
-        super(ModEntities.WOODEN_GOLEM.get());
+        super(Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "wooden_golem"));
+    }
+
+    @Override
+    protected String subtype() {
+        return "entity";
     }
 }
