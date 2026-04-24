@@ -5,27 +5,25 @@
 package com.klikli_dev.golemancyartifice;
 
 import com.klikli_dev.golemancyartifice.datagen.DataGenerators;
-import com.mojang.logging.LogUtils;
+import com.klikli_dev.golemancyartifice.registry.CreativeModeTabRegistry;
+import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
+import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import org.slf4j.Logger;
 
 @Mod(GolemancyArtifice.MODID)
 public class GolemancyArtifice {
     public static final String MODID = "golemancyartifice";
-    public static final Logger LOGGER = LogUtils.getLogger();
 
     public GolemancyArtifice(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
+        EntityRegistry.ENTITY_TYPES.register(modEventBus);
+        ItemRegistry.ITEMS.register(modEventBus);
 
-        modEventBus.addListener(this::onCommonSetupEvent);
+        modEventBus.addListener(EntityRegistry::onEntityAttributeCreation);
         modEventBus.addListener(DataGenerators::onGatherData);
-    }
-
-    private void onCommonSetupEvent(FMLCommonSetupEvent event) {
-
     }
 }
