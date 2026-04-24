@@ -5,7 +5,7 @@
 package com.klikli_dev.golemancyartifice.registry;
 
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
-import com.klikli_dev.golemancyartifice.common.entity.WoodenGolemEntity;
+import com.klikli_dev.golemancyartifice.content.entity.golem.wooden.WoodenGolemEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;

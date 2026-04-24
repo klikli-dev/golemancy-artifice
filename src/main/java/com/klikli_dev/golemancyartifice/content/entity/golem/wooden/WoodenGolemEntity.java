@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.golemancyartifice.common.entity;
+package com.klikli_dev.golemancyartifice.content.entity.golem.wooden;
 
 import com.geckolib.animatable.GeoEntity;
 import com.geckolib.animatable.instance.AnimatableInstanceCache;

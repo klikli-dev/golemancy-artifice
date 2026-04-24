@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.golemancyartifice.client.model.entity;
+package com.klikli_dev.golemancyartifice.content.entity.golem.wooden;
 
 import com.geckolib.model.DefaultedGeoModel;
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
-import com.klikli_dev.golemancyartifice.common.entity.WoodenGolemEntity;
 import net.minecraft.resources.Identifier;
 
 public class WoodenGolemModel extends DefaultedGeoModel<WoodenGolemEntity> {

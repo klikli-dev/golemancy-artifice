@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.golemancyartifice.client.render.entity;
+package com.klikli_dev.golemancyartifice.content.entity.golem.wooden;
 
 import com.geckolib.renderer.GeoEntityRenderer;
-import com.klikli_dev.golemancyartifice.client.model.entity.WoodenGolemModel;
-import com.klikli_dev.golemancyartifice.common.entity.WoodenGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 

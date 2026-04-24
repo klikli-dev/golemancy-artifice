@@ -24,7 +24,7 @@ public class ENUSLanguageProvider extends LanguageProvider {
     }
 
     protected void addCreativeTabs() {
-        this.add("itemGroup." + GolemancyArtifice.MODID, "Golemancy Artifice");
+        this.add("itemGroup." + GolemancyArtifice.MODID, "Golemancy: Artifice");
     }
 
     protected void addConfig() {

@@ -4,7 +4,7 @@
 
 package com.klikli_dev.golemancyartifice;
 
-import com.klikli_dev.golemancyartifice.client.render.entity.WoodenGolemRenderer;
+import com.klikli_dev.golemancyartifice.content.entity.golem.wooden.WoodenGolemRenderer;
 import com.klikli_dev.golemancyartifice.registry.ModEntities;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
