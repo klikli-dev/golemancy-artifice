@@ -5,6 +5,7 @@
 package com.klikli_dev.golemancyartifice;
 
 import com.klikli_dev.golemancyartifice.datagen.DataGenerators;
+import com.klikli_dev.golemancyartifice.registry.CreativeModeTabRegistry;
 import com.klikli_dev.golemancyartifice.registry.ModEntities;
 import com.klikli_dev.golemancyartifice.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
@@ -18,6 +19,7 @@ public class GolemancyArtifice {
 
     public GolemancyArtifice(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
 

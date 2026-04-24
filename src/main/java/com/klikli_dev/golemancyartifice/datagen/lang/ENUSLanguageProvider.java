@@ -18,8 +18,13 @@ public class ENUSLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         this.addConfig();
+        this.addCreativeTabs();
         this.addEntities();
         this.addItems();
+    }
+
+    protected void addCreativeTabs() {
+        this.add("itemGroup." + GolemancyArtifice.MODID, "Golemancy Artifice");
     }
 
     protected void addConfig() {
