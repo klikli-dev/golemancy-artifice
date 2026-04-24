@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "golemancyartifice:item/spawn_egg",
+    "layer1": "golemancyartifice:item/spawn_egg_overlay"
+  }
+}
