@@ -17,11 +17,8 @@ public class CreativeModeTabRegistry {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> GOLEMANCY_ARTIFICE = CREATIVE_MODE_TABS.register(GolemancyArtifice.MODID, () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ModItems.WOODEN_GOLEM_SPAWN_EGG.get().getDefaultInstance())
+            .icon(() -> ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get().getDefaultInstance())
             .title(Component.translatable("itemGroup." + GolemancyArtifice.MODID))
-            .displayItems((parameters, output) -> output.accept(ModItems.WOODEN_GOLEM_SPAWN_EGG.get()))
+            .displayItems((parameters, output) -> output.accept(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get()))
             .build());
-
-    private CreativeModeTabRegistry() {
-    }
 }

@@ -5,8 +5,8 @@
 package com.klikli_dev.golemancyartifice.datagen.lang;
 
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
-import com.klikli_dev.golemancyartifice.registry.ModEntities;
-import com.klikli_dev.golemancyartifice.registry.ModItems;
+import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
+import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -32,10 +32,10 @@ public class ENUSLanguageProvider extends LanguageProvider {
     }
 
     protected void addEntities() {
-        this.add(ModEntities.WOODEN_GOLEM.get(), "Wooden Golem");
+        this.add(EntityRegistry.WOODEN_GOLEM.get(), "Wooden Golem");
     }
 
     protected void addItems() {
-        this.addItem(ModItems.WOODEN_GOLEM_SPAWN_EGG, "Wooden Golem Spawn Egg");
+        this.addItem(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG, "Wooden Golem Spawn Egg");
     }
 }

@@ -5,7 +5,7 @@
 package com.klikli_dev.golemancyartifice;
 
 import com.klikli_dev.golemancyartifice.content.entity.golem.wooden.WoodenGolemRenderer;
-import com.klikli_dev.golemancyartifice.registry.ModEntities;
+import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -23,6 +23,6 @@ public class GolemancyArtificeClient {
     }
 
     private void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.WOODEN_GOLEM.get(), WoodenGolemRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.WOODEN_GOLEM.get(), WoodenGolemRenderer::new);
     }
 }

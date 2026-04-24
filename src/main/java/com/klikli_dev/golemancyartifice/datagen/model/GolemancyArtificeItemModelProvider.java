@@ -6,7 +6,7 @@ package com.klikli_dev.golemancyartifice.datagen.model;
 
 import com.google.gson.JsonObject;
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
-import com.klikli_dev.golemancyartifice.registry.ModItems;
+import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.resources.Identifier;
@@ -19,12 +19,12 @@ public class GolemancyArtificeItemModelProvider {
     private static final int WOODEN_GOLEM_SECONDARY_SPAWN_EGG_COLOR = 0x4F341D;
 
     public Stream<Item> getKnownItems() {
-        return Stream.of(ModItems.WOODEN_GOLEM_SPAWN_EGG.get());
+        return Stream.of(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get());
     }
 
     public void registerModels(ItemModelGenerators itemModels) {
         this.registerSpawnEggTemplate(itemModels);
-        this.registerSpawnEgg(itemModels, ModItems.WOODEN_GOLEM_SPAWN_EGG.get(), WOODEN_GOLEM_PRIMARY_SPAWN_EGG_COLOR, WOODEN_GOLEM_SECONDARY_SPAWN_EGG_COLOR);
+        this.registerSpawnEgg(itemModels, ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get(), WOODEN_GOLEM_PRIMARY_SPAWN_EGG_COLOR, WOODEN_GOLEM_SECONDARY_SPAWN_EGG_COLOR);
     }
 
     private void registerSpawnEgg(ItemModelGenerators itemModels, Item item, int primaryColor, int secondaryColor) {

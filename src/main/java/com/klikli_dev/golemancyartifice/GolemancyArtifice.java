@@ -6,8 +6,8 @@ package com.klikli_dev.golemancyartifice;
 
 import com.klikli_dev.golemancyartifice.datagen.DataGenerators;
 import com.klikli_dev.golemancyartifice.registry.CreativeModeTabRegistry;
-import com.klikli_dev.golemancyartifice.registry.ModEntities;
-import com.klikli_dev.golemancyartifice.registry.ModItems;
+import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
+import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -20,10 +20,10 @@ public class GolemancyArtifice {
     public GolemancyArtifice(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
-        ModEntities.ENTITY_TYPES.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
+        EntityRegistry.ENTITY_TYPES.register(modEventBus);
+        ItemRegistry.ITEMS.register(modEventBus);
 
-        modEventBus.addListener(ModEntities::onEntityAttributeCreation);
+        modEventBus.addListener(EntityRegistry::onEntityAttributeCreation);
         modEventBus.addListener(DataGenerators::onGatherData);
     }
 }
