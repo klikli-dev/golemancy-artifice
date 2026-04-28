@@ -64,11 +64,11 @@ jobs:
         with:
           allowUpdates: true
           draft: false
-          name: golemancy-artifice-${{ steps.get_mc_version.outputs.result }}-${{ steps.get_version.outputs.result }}-neoforge-${{ steps.get_release_type.outputs.result }}
+          name: golemancyartifice-${{ steps.get_mc_version.outputs.result }}-${{ steps.get_version.outputs.result }}-neoforge-${{ steps.get_release_type.outputs.result }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
           tag: ${{ github.ref }}
-          artifacts: ./build/libs/golemancy-artifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
+          artifacts: ./build/libs/golemancyartifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
           artifactContentType: application/java-archive
       - name: Update mod_version in gradle.properties
         if: ${{ steps.get_release_type.outputs.result != 'test' }}
@@ -89,10 +89,10 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
 
           files: |
-            build/libs/golemancy-artifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
-            build/libs/golemancy-artifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}-sources.jar
+            build/libs/golemancyartifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
+            build/libs/golemancyartifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}-sources.jar
 
-          name: golemancy-artifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
+          name: golemancyartifice-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar
           version: ${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}
           version-type: ${{ steps.get_release_type.outputs.result }}
           loaders: |
