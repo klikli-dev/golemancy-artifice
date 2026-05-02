@@ -16,7 +16,7 @@ public final class MenuRegistry {
 
     public static final DeferredHolder<MenuType<?>, MenuType<GolemBindingToolMenu>> GOLEM_BINDING_TOOL = MENUS.register(
             "golem_binding_tool",
-            () -> net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(GolemBindingToolMenu::new)
+            () -> net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(GolemBindingToolMenu::create)
     );
 
     private MenuRegistry() {

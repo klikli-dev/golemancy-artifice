@@ -21,6 +21,7 @@ public class ENUSLanguageProvider extends LanguageProvider {
         this.addCreativeTabs();
         this.addEntities();
         this.addItems();
+        this.addScreens();
     }
 
     protected void addCreativeTabs() {
@@ -39,5 +40,10 @@ public class ENUSLanguageProvider extends LanguageProvider {
         this.addItem(ItemRegistry.GOLEM_BINDING_TOOL, "Golem Binding Tool");
         this.addItem(ItemRegistry.INVENTORY_TRANSFER_CORE, "Inventory Transfer Core");
         this.addItem(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG, "Wooden Golem Spawn Egg");
+    }
+
+    protected void addScreens() {
+        this.add("screen.golemancyartifice.golem_binding_tool", "Golem Binding Tool");
+        this.add("screen.golemancyartifice.golem_binding_tool.apply", "Apply");
     }
 }

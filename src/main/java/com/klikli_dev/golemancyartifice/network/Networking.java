@@ -6,7 +6,7 @@ package com.klikli_dev.golemancyartifice.network;
 
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
 import com.klikli_dev.golemancyartifice.network.messages.MessageApplyBindingTarget;
-import com.klikli_dev.golemancyartifice.network.messages.MessageSelectBindingAction;
+import com.klikli_dev.golemancyartifice.network.messages.MessageSetBindingAction;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -16,7 +16,7 @@ public class Networking {
     public static void register(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar(GolemancyArtifice.MODID);
 
-        registrar.playToServer(MessageSelectBindingAction.TYPE, MessageSelectBindingAction.STREAM_CODEC, MessageHandler::handle);
+        registrar.playToServer(MessageSetBindingAction.TYPE, MessageSetBindingAction.STREAM_CODEC, MessageHandler::handle);
         registrar.playToServer(MessageApplyBindingTarget.TYPE, MessageApplyBindingTarget.STREAM_CODEC, MessageHandler::handle);
     }
 
