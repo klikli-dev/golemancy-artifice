@@ -1,6 +1,7 @@
 {
   "entity.golemancyartifice.wooden_golem": "Wooden Golem",
   "golemancyartifice.configuration.title": "Golemancy: Artifice Configs",
+  "item.golemancyartifice.inventory_transfer_core": "Inventory Transfer Core",
   "item.golemancyartifice.spawn_egg.wooden_golem": "Wooden Golem Spawn Egg",
-  "itemGroup.golemancyartifice": "Golemancy Artifice"
+  "itemGroup.golemancyartifice": "Golemancy: Artifice"
 }

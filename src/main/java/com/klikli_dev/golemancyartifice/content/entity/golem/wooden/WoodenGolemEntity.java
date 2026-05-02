@@ -10,6 +10,10 @@ import com.geckolib.animatable.manager.AnimatableManager;
 import com.geckolib.animation.AnimationController;
 import com.geckolib.animation.RawAnimation;
 import com.geckolib.util.GeckoLibUtil;
+import com.klikli_dev.golemancyartifice.content.golem.core.host.GolemCoreHost;
+import com.klikli_dev.golemancyartifice.content.golem.core.runtime.ActiveCoreRuntime;
+import com.klikli_dev.golemancyartifice.content.golem.core.runtime.NoCoreRuntime;
+import com.klikli_dev.golemancyartifice.content.golem.core.slot.GolemCoreSlot;
 import java.util.List;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -19,11 +23,12 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
-public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
+public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, GolemCoreHost {
     private static final RawAnimation IDLE_ANIMATION = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK_ANIMATION = RawAnimation.begin().thenLoop("walk");
     private static final Brain.Provider<WoodenGolemEntity> BRAIN_PROVIDER = Brain.provider(
@@ -32,6 +37,7 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
     );
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final GolemCoreSlot coreSlot = new GolemCoreSlot();
 
     public WoodenGolemEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -44,6 +50,24 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity {
                 .add(Attributes.MAX_HEALTH, 20.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.FOLLOW_RANGE, 16.0);
+    }
+
+    @Override
+    public ItemStack installedCore() {
+        return this.coreSlot.get();
+    }
+
+    @Override
+    public ActiveCoreRuntime activeCoreRuntime() {
+        return NoCoreRuntime.INSTANCE;
+    }
+
+    public void installCore(ItemStack stack) {
+        if (!this.coreSlot.mayPlace(stack)) {
+            throw new IllegalArgumentException("Only CoreItem stacks may be installed");
+        }
+
+        this.coreSlot.set(stack);
     }
 
     @Override

@@ -6,7 +6,6 @@ package com.klikli_dev.golemancyartifice.gametest;
 
 import com.klikli_dev.golemancyartifice.GolemancyArtifice;
 import net.minecraft.core.Holder;
-import net.minecraft.gametest.framework.FunctionGameTestInstance;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
 import net.minecraft.resources.Identifier;
@@ -23,9 +22,17 @@ public final class GolemancyGameTests {
 
         event.registerTest(
                 Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "core_item_exposes_definition"),
-                new FunctionGameTestInstance(
-                        GolemancyGameTestFunctions.CORE_ITEM_EXPOSES_DEFINITION,
+                new DirectGameTestInstance(
                         new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 20, 0, true)
+                        , GolemancyGameTestFunctions.CORE_ITEM_EXPOSES_DEFINITION_FUNCTION
+                )
+        );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "golem_accepts_transfer_core"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 40, 0, true)
+                        , GolemancyGameTestFunctions.GOLEM_ACCEPTS_TRANSFER_CORE_FUNCTION
                 )
         );
     }

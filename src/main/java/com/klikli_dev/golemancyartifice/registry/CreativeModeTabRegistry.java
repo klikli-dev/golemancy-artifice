@@ -19,6 +19,9 @@ public class CreativeModeTabRegistry {
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get().getDefaultInstance())
             .title(Component.translatable("itemGroup." + GolemancyArtifice.MODID))
-            .displayItems((parameters, output) -> output.accept(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get()))
+            .displayItems((parameters, output) -> {
+                output.accept(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get());
+                output.accept(ItemRegistry.INVENTORY_TRANSFER_CORE.get());
+            })
             .build());
 }
