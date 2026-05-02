@@ -6,10 +6,13 @@ package com.klikli_dev.golemancyartifice;
 
 import com.klikli_dev.golemancyartifice.datagen.DataGenerators;
 import com.klikli_dev.golemancyartifice.gametest.GolemancyGameTests;
+import com.klikli_dev.golemancyartifice.network.Networking;
 import com.klikli_dev.golemancyartifice.registry.CreativeModeTabRegistry;
 import com.klikli_dev.golemancyartifice.registry.DataComponentTypeRegistry;
 import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
 import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
+import com.klikli_dev.golemancyartifice.registry.MenuRegistry;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -19,15 +22,21 @@ import net.neoforged.fml.config.ModConfig;
 public class GolemancyArtifice {
     public static final String MODID = "golemancyartifice";
 
+    public static Identifier loc(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
+    }
+
     public GolemancyArtifice(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
         DataComponentTypeRegistry.DATA_COMPONENTS.register(modEventBus);
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
         ItemRegistry.ITEMS.register(modEventBus);
+        MenuRegistry.MENUS.register(modEventBus);
 
         modEventBus.addListener(EntityRegistry::onEntityAttributeCreation);
         modEventBus.addListener(DataGenerators::onGatherData);
         modEventBus.addListener(GolemancyGameTests::onRegisterGameTests);
+        modEventBus.addListener(Networking::register);
     }
 }
