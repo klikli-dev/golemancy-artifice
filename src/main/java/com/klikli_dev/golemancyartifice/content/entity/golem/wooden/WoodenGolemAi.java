@@ -32,7 +32,7 @@ public final class WoodenGolemAi {
     private WoodenGolemAi() {
     }
 
-    public static List<ActivityData<WoodenGolemEntity>> getActivities() {
+    public static List<ActivityData<WoodenGolemEntity>> noCoreActivities() {
         return List.of(initCoreActivity(), initIdleActivity());
     }
 

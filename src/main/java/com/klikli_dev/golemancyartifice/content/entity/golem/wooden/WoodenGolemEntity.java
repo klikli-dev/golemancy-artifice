@@ -10,10 +10,14 @@ import com.geckolib.animatable.manager.AnimatableManager;
 import com.geckolib.animation.AnimationController;
 import com.geckolib.animation.RawAnimation;
 import com.geckolib.util.GeckoLibUtil;
+import com.klikli_dev.golemancyartifice.content.golem.core.CoreDefinition;
+import com.klikli_dev.golemancyartifice.content.golem.core.CoreItem;
 import com.klikli_dev.golemancyartifice.content.golem.core.host.GolemCoreHost;
 import com.klikli_dev.golemancyartifice.content.golem.core.runtime.ActiveCoreRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.runtime.NoCoreRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.slot.GolemCoreSlot;
+import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferRuntime;
+import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferStatusEvaluator;
 import java.util.List;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -33,11 +37,13 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
     private static final RawAnimation WALK_ANIMATION = RawAnimation.begin().thenLoop("walk");
     private static final Brain.Provider<WoodenGolemEntity> BRAIN_PROVIDER = Brain.provider(
             List.of(SensorType.NEAREST_LIVING_ENTITIES),
-            entity -> WoodenGolemAi.getActivities()
+            entity -> WoodenGolemAi.noCoreActivities()
     );
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final GolemCoreSlot coreSlot = new GolemCoreSlot();
+    private final InventoryTransferStatusEvaluator transferStatusEvaluator = new InventoryTransferStatusEvaluator();
+    private ActiveCoreRuntime activeCoreRuntime = NoCoreRuntime.INSTANCE;
 
     public WoodenGolemEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -59,7 +65,7 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
 
     @Override
     public ActiveCoreRuntime activeCoreRuntime() {
-        return NoCoreRuntime.INSTANCE;
+        return this.activeCoreRuntime;
     }
 
     public void installCore(ItemStack stack) {
@@ -68,6 +74,28 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
         }
 
         this.coreSlot.set(stack);
+    }
+
+    public void refreshInstalledCore() {
+        if (this.installedCore().getItem() instanceof CoreItem coreItem) {
+            this.activeCoreRuntime = coreItem.definition().createRuntime(this.installedCore(), this);
+        } else {
+            this.activeCoreRuntime = NoCoreRuntime.INSTANCE;
+        }
+
+        this.rebuildBrain();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void rebuildBrain() {
+        Brain.Provider<WoodenGolemEntity> provider = Brain.provider(
+                List.of(SensorType.NEAREST_LIVING_ENTITIES),
+                entity -> this.installedCore().getItem() instanceof CoreItem coreItem
+                        ? ((CoreDefinition<ActiveCoreRuntime>) coreItem.definition()).activities(this.activeCoreRuntime, entity)
+                        : WoodenGolemAi.noCoreActivities()
+        );
+
+        this.brain = provider.makeBrain(this, this.getBrain().pack());
     }
 
     @Override
@@ -83,9 +111,26 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
 
     @Override
     protected void customServerAiStep(@NonNull ServerLevel level) {
+        this.recomputeCoreRuntime(level);
         this.getBrain().tick(level, this);
         WoodenGolemAi.updateActivity(this);
         super.customServerAiStep(level);
+    }
+
+    private void recomputeCoreRuntime(ServerLevel level) {
+        if (this.activeCoreRuntime instanceof InventoryTransferRuntime runtime) {
+            InventoryTransferRuntime updated = this.transferStatusEvaluator.evaluate(runtime, level);
+            if (!sameRuntimeState(runtime, updated)) {
+                this.activeCoreRuntime = updated;
+                this.rebuildBrain();
+            } else {
+                this.activeCoreRuntime = updated;
+            }
+        }
+    }
+
+    private static boolean sameRuntimeState(InventoryTransferRuntime current, InventoryTransferRuntime updated) {
+        return current.runState() == updated.runState() && current.diagnostics().equals(updated.diagnostics());
     }
 
     @Override

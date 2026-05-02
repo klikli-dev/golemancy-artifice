@@ -4,15 +4,32 @@
 
 package com.klikli_dev.golemancyartifice.content.golem.core.transfer;
 
+import com.klikli_dev.golemancyartifice.content.entity.golem.wooden.WoodenGolemAi;
+import com.klikli_dev.golemancyartifice.content.entity.golem.wooden.WoodenGolemEntity;
 import com.klikli_dev.golemancyartifice.content.golem.core.CoreDefinition;
 import com.klikli_dev.golemancyartifice.content.golem.core.host.GolemCoreHost;
 import com.klikli_dev.golemancyartifice.content.golem.core.status.CoreRunState;
 import java.util.List;
+import net.minecraft.world.entity.ai.ActivityData;
+import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.item.ItemStack;
 
 public final class InventoryTransferCoreDefinition implements CoreDefinition<InventoryTransferRuntime> {
+    private final InventoryTransferConfigMapper configMapper = new InventoryTransferConfigMapper();
+    private final InventoryTransferBrainFactory brainFactory = new InventoryTransferBrainFactory();
+
     @Override
     public InventoryTransferRuntime createRuntime(ItemStack stack, GolemCoreHost host) {
-        return new InventoryTransferRuntime(null, null, CoreRunState.UNCONFIGURED, List.of());
+        return this.configMapper.load(stack, host);
+    }
+
+    @Override
+    public List<SensorType<?>> sensorTypes() {
+        return List.of(SensorType.NEAREST_LIVING_ENTITIES);
+    }
+
+    @Override
+    public List<ActivityData<WoodenGolemEntity>> activities(InventoryTransferRuntime runtime, WoodenGolemEntity entity) {
+        return this.brainFactory.create(runtime);
     }
 }

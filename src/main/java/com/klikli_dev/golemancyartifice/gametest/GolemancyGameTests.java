@@ -35,5 +35,29 @@ public final class GolemancyGameTests {
                         , GolemancyGameTestFunctions.GOLEM_ACCEPTS_TRANSFER_CORE_FUNCTION
                 )
         );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "golem_rebuilds_runtime_for_transfer_core"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 40, 0, true)
+                        , GolemancyGameTestFunctions.GOLEM_REBUILDS_RUNTIME_FOR_TRANSFER_CORE_FUNCTION
+                )
+        );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "transfer_core_reports_unconfigured"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 40, 0, true)
+                        , GolemancyGameTestFunctions.TRANSFER_CORE_REPORTS_UNCONFIGURED_FUNCTION
+                )
+        );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "transfer_core_moves_item_between_chests"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 120, 0, true)
+                        , GolemancyGameTestFunctions.TRANSFER_CORE_MOVES_ITEM_BETWEEN_CHESTS_FUNCTION
+                )
+        );
     }
 }
