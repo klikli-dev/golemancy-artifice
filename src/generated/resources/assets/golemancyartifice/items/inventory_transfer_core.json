@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "golemancyartifice:item/inventory_transfer_core"
+  }
+}
