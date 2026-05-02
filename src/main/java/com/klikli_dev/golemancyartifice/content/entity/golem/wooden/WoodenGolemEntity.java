@@ -16,9 +16,13 @@ import com.klikli_dev.golemancyartifice.content.golem.core.host.GolemCoreHost;
 import com.klikli_dev.golemancyartifice.content.golem.core.runtime.ActiveCoreRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.runtime.NoCoreRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.slot.GolemCoreSlot;
+import com.klikli_dev.golemancyartifice.content.golem.core.status.CoreRunState;
 import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferStatusEvaluator;
 import java.util.List;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -33,6 +37,7 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, GolemCoreHost {
+    private static final EntityDataAccessor<Integer> DATA_CORE_RUN_STATE = SynchedEntityData.defineId(WoodenGolemEntity.class, EntityDataSerializers.INT);
     private static final RawAnimation IDLE_ANIMATION = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK_ANIMATION = RawAnimation.begin().thenLoop("walk");
     private static final Brain.Provider<WoodenGolemEntity> BRAIN_PROVIDER = Brain.provider(
@@ -68,6 +73,24 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
         return this.activeCoreRuntime;
     }
 
+    public CoreRunState currentCoreRunState() {
+        if (!this.level().isClientSide()) {
+            return this.activeCoreRuntime.runState();
+        }
+
+        int ordinal = this.entityData.get(DATA_CORE_RUN_STATE);
+        CoreRunState[] values = CoreRunState.values();
+        if (ordinal < 0 || ordinal >= values.length) {
+            return CoreRunState.UNCONFIGURED;
+        }
+
+        return values[ordinal];
+    }
+
+    private void setCurrentCoreRunState(CoreRunState state) {
+        this.entityData.set(DATA_CORE_RUN_STATE, state.ordinal());
+    }
+
     public void installCore(ItemStack stack) {
         if (!this.coreSlot.mayPlace(stack)) {
             throw new IllegalArgumentException("Only CoreItem stacks may be installed");
@@ -83,7 +106,18 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
             this.activeCoreRuntime = NoCoreRuntime.INSTANCE;
         }
 
+        if (this.level() instanceof ServerLevel serverLevel && this.activeCoreRuntime instanceof InventoryTransferRuntime runtime) {
+            this.activeCoreRuntime = this.transferStatusEvaluator.evaluate(runtime, serverLevel);
+        }
+
+        this.setCurrentCoreRunState(this.activeCoreRuntime.runState());
         this.rebuildBrain();
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+        super.defineSynchedData(entityData);
+        entityData.define(DATA_CORE_RUN_STATE, CoreRunState.UNCONFIGURED.ordinal());
     }
 
     @SuppressWarnings("unchecked")
@@ -122,9 +156,11 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
             InventoryTransferRuntime updated = this.transferStatusEvaluator.evaluate(runtime, level);
             if (!sameRuntimeState(runtime, updated)) {
                 this.activeCoreRuntime = updated;
+                this.setCurrentCoreRunState(updated.runState());
                 this.rebuildBrain();
             } else {
                 this.activeCoreRuntime = updated;
+                this.setCurrentCoreRunState(updated.runState());
             }
         }
     }

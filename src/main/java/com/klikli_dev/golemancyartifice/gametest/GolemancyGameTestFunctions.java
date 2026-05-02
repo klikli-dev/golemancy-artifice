@@ -75,6 +75,28 @@ public final class GolemancyGameTestFunctions {
             helper.assertContainerContainsSingle(new BlockPos(4, 1, 1), Items.COBBLESTONE);
         });
     };
+    public static final Consumer<GameTestHelper> TRANSFER_CORE_REPORTS_BLOCKED_WHEN_DESTINATION_IS_FULL_FUNCTION = helper -> {
+        helper.setBlock(1, 1, 1, Blocks.CHEST);
+        helper.setBlock(4, 1, 1, Blocks.CHEST);
+
+        var sourceChest = helper.getBlockEntity(new BlockPos(1, 1, 1), ChestBlockEntity.class);
+        var destinationChest = helper.getBlockEntity(new BlockPos(4, 1, 1), ChestBlockEntity.class);
+        sourceChest.setItem(0, new ItemStack(Items.COBBLESTONE));
+
+        for (int slot = 0; slot < destinationChest.getContainerSize(); slot++) {
+            destinationChest.setItem(slot, new ItemStack(Items.DIRT, destinationChest.getMaxStackSize()));
+        }
+
+        var coreStack = ItemRegistry.INVENTORY_TRANSFER_CORE.toStack();
+        coreStack.set(DataComponentTypeRegistry.TRANSFER_SOURCE.get(), GlobalPos.of(helper.getLevel().dimension(), helper.absolutePos(new BlockPos(1, 1, 1))));
+        coreStack.set(DataComponentTypeRegistry.TRANSFER_DESTINATION.get(), GlobalPos.of(helper.getLevel().dimension(), helper.absolutePos(new BlockPos(4, 1, 1))));
+
+        var golem = helper.spawn(EntityRegistry.WOODEN_GOLEM.get(), 2, 2, 3);
+        golem.installCore(coreStack);
+        golem.refreshInstalledCore();
+
+        helper.succeedWhen(() -> helper.assertValueEqual(golem.currentCoreRunState(), CoreRunState.BLOCKED, "run state"));
+    };
 
     private GolemancyGameTestFunctions() {
     }

@@ -59,5 +59,13 @@ public final class GolemancyGameTests {
                         , GolemancyGameTestFunctions.TRANSFER_CORE_MOVES_ITEM_BETWEEN_CHESTS_FUNCTION
                 )
         );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "transfer_core_reports_blocked_when_destination_is_full"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 80, 0, true)
+                        , GolemancyGameTestFunctions.TRANSFER_CORE_REPORTS_BLOCKED_WHEN_DESTINATION_IS_FULL_FUNCTION
+                )
+        );
     }
 }
