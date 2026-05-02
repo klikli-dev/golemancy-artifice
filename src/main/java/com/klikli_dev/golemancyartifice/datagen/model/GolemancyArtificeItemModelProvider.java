@@ -25,13 +25,14 @@ public class GolemancyArtificeItemModelProvider {
     private static final int WOODEN_GOLEM_SECONDARY_SPAWN_EGG_COLOR = 0x4F341D;
 
     public Stream<Item> getKnownItems() {
-        return Stream.of(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get(), ItemRegistry.INVENTORY_TRANSFER_CORE.get());
+        return Stream.of(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get(), ItemRegistry.INVENTORY_TRANSFER_CORE.get(), ItemRegistry.GOLEM_BINDING_TOOL.get());
     }
 
     public void registerModels(ItemModelGenerators itemModels) {
         this.registerSpawnEggTemplate(itemModels);
         this.registerSpawnEgg(itemModels, ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get(), WOODEN_GOLEM_PRIMARY_SPAWN_EGG_COLOR, WOODEN_GOLEM_SECONDARY_SPAWN_EGG_COLOR);
         this.registerFlatItem(itemModels, ItemRegistry.INVENTORY_TRANSFER_CORE.get());
+        this.registerFlatItem(itemModels, ItemRegistry.GOLEM_BINDING_TOOL.get());
     }
 
     private void registerSpawnEgg(ItemModelGenerators itemModels, Item item, int primaryColor, int secondaryColor) {

@@ -20,6 +20,7 @@ import com.klikli_dev.golemancyartifice.content.golem.core.status.CoreRunState;
 import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferStatusEvaluator;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -97,6 +98,12 @@ public class WoodenGolemEntity extends PathfinderMob implements GeoEntity, Golem
         }
 
         this.coreSlot.set(stack);
+    }
+
+    public void reconfigureInstalledCore(UnaryOperator<ItemStack> editor) {
+        ItemStack edited = editor.apply(this.installedCore().copy());
+        this.installCore(edited);
+        this.refreshInstalledCore();
     }
 
     public void refreshInstalledCore() {

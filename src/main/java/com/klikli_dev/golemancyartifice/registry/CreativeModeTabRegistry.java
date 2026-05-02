@@ -22,6 +22,7 @@ public class CreativeModeTabRegistry {
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG.get());
                 output.accept(ItemRegistry.INVENTORY_TRANSFER_CORE.get());
+                output.accept(ItemRegistry.GOLEM_BINDING_TOOL.get());
             })
             .build());
 }

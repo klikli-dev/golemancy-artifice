@@ -4,9 +4,10 @@
 
 package com.klikli_dev.golemancyartifice.gametest;
 
-import com.klikli_dev.golemancyartifice.content.golem.core.status.CoreRunState;
-import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferRuntime;
 import com.klikli_dev.golemancyartifice.content.golem.core.CoreItem;
+import com.klikli_dev.golemancyartifice.content.golem.core.status.CoreRunState;
+import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferCoreDefinition;
+import com.klikli_dev.golemancyartifice.content.golem.core.transfer.InventoryTransferRuntime;
 import com.klikli_dev.golemancyartifice.registry.EntityRegistry;
 import com.klikli_dev.golemancyartifice.registry.DataComponentTypeRegistry;
 import com.klikli_dev.golemancyartifice.registry.ItemRegistry;
@@ -96,6 +97,26 @@ public final class GolemancyGameTestFunctions {
         golem.refreshInstalledCore();
 
         helper.succeedWhen(() -> helper.assertValueEqual(golem.currentCoreRunState(), CoreRunState.BLOCKED, "run state"));
+    };
+    public static final Consumer<GameTestHelper> BINDING_TOOL_RECONFIGURES_ATTACHED_TRANSFER_CORE_FUNCTION = helper -> {
+        helper.setBlock(1, 1, 1, Blocks.CHEST);
+        helper.setBlock(4, 1, 1, Blocks.CHEST);
+        helper.getBlockEntity(new BlockPos(1, 1, 1), ChestBlockEntity.class).setItem(0, new ItemStack(Items.COBBLESTONE));
+
+        var golem = helper.spawn(EntityRegistry.WOODEN_GOLEM.get(), 2, 2, 2);
+        var coreStack = ItemRegistry.INVENTORY_TRANSFER_CORE.get().getDefaultInstance();
+
+        golem.installCore(coreStack);
+        golem.refreshInstalledCore();
+
+        InventoryTransferCoreDefinition definition = (InventoryTransferCoreDefinition) ((CoreItem) golem.installedCore().getItem()).definition();
+        golem.reconfigureInstalledCore(stack -> definition.applyBindingAction(stack, "set_source", helper.absolutePos(new BlockPos(1, 1, 1)), golem));
+        golem.reconfigureInstalledCore(stack -> definition.applyBindingAction(stack, "set_destination", helper.absolutePos(new BlockPos(4, 1, 1)), golem));
+
+        helper.assertTrue(golem.installedCore().has(DataComponentTypeRegistry.TRANSFER_SOURCE.get()), "Attached binding must mutate installed item first");
+        helper.assertTrue(golem.installedCore().has(DataComponentTypeRegistry.TRANSFER_DESTINATION.get()), "Attached binding must mutate installed item first");
+        helper.assertValueEqual(golem.activeCoreRuntime().runState(), CoreRunState.RUNNABLE, "run state");
+        helper.succeed();
     };
 
     private GolemancyGameTestFunctions() {

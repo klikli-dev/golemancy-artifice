@@ -36,6 +36,7 @@ public class ENUSLanguageProvider extends LanguageProvider {
     }
 
     protected void addItems() {
+        this.addItem(ItemRegistry.GOLEM_BINDING_TOOL, "Golem Binding Tool");
         this.addItem(ItemRegistry.INVENTORY_TRANSFER_CORE, "Inventory Transfer Core");
         this.addItem(ItemRegistry.WOODEN_GOLEM_SPAWN_EGG, "Wooden Golem Spawn Egg");
     }

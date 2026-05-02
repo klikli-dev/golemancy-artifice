@@ -67,5 +67,13 @@ public final class GolemancyGameTests {
                         , GolemancyGameTestFunctions.TRANSFER_CORE_REPORTS_BLOCKED_WHEN_DESTINATION_IS_FULL_FUNCTION
                 )
         );
+
+        event.registerTest(
+                Identifier.fromNamespaceAndPath(GolemancyArtifice.MODID, "binding_tool_reconfigures_attached_transfer_core"),
+                new DirectGameTestInstance(
+                        new TestData<>(environment, Identifier.withDefaultNamespace("empty"), 40, 0, true)
+                        , GolemancyGameTestFunctions.BINDING_TOOL_RECONFIGURES_ATTACHED_TRANSFER_CORE_FUNCTION
+                )
+        );
     }
 }
